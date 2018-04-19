@@ -7,6 +7,9 @@ endif
 if !exists('g:header_field_author')
     let g:header_field_author = ''
 endif
+if !exists('g:header_field_github_username')
+    let g:header_field_github_username = ''
+endif
 if !exists('g:header_field_author_email')
     let g:header_field_author_email = ''
 endif
@@ -51,10 +54,10 @@ fun s:set_props()
     let b:auto_space_after_char = 1 " Put auto space after comment char, if line is not empty
     " Field placeholders according to doc comment syntax, if available
     let b:field_file = 'File'
-    let b:field_author = 'Author'
-    let b:field_date = 'Date'
-    let b:field_modified_date = 'Last Modified Date'
-    let b:field_modified_by = 'Last Modified By'
+    let b:field_author = '@author'
+    let b:field_date = '@date'
+    let b:field_modified_date = '@lastModifiedTime'
+    let b:field_modified_by = '@lastModifiedBy'
     let b:field_separator = ':'
 
     " Setting Values for Languages
@@ -235,6 +238,11 @@ fun s:add_header()
         let i += 1
     endif
     if g:header_field_author != ''
+        if g:header_field_github_username != ''
+          let username = ' <' . g:header_field_github_username . '>'
+        else
+          let username = ''
+        endif
         if g:header_field_author_email != ''
             let email = ' <' . g:header_field_author_email . '>'
         else
