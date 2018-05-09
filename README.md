@@ -259,6 +259,8 @@ Supported filetypes are:
 - scheme
 - sh
 - tmux
+- vhdl
+- verilog
 - vim
 - xdefaults
 - yaml
