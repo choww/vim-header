@@ -56,8 +56,8 @@ fun s:set_props()
     let b:field_file = 'File'
     let b:field_author = '@author'
     let b:field_date = '@date'
-    let b:field_modified_date = '@lastModifiedTime'
     let b:field_modified_by = '@lastModifiedBy'
+    let b:field_modified_date = '@lastModifiedTime'
     let b:field_separator = ':'
 
     " Setting Values for Languages
@@ -255,10 +255,6 @@ fun s:add_header()
         call append(i, b:comment_char . b:field_date . ' ' . strftime(g:header_field_timestamp_format))
         let i += 1
     endif
-    if g:header_field_modified_timestamp
-        call append(i, b:comment_char . b:field_modified_date . ' ' . strftime(g:header_field_timestamp_format))
-        let i += 1
-    endif
     if g:header_field_modified_by && g:header_field_author != ''
         if g:header_field_author_email != ''
             let email = ' <' . g:header_field_author_email . '>'
@@ -266,6 +262,10 @@ fun s:add_header()
             let email = ''
         endif
         call append(i, b:comment_char . b:field_modified_by . ' ' . g:header_field_author . email)
+        let i += 1
+    endif
+    if g:header_field_modified_timestamp
+        call append(i, b:comment_char . b:field_modified_date . ' ' . strftime(g:header_field_timestamp_format))
         let i += 1
     endif
 
