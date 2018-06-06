@@ -248,7 +248,7 @@ fun s:add_header()
         else
             let email = ''
         endif
-        call append(i, b:comment_char . b:field_author . ' ' . g:header_field_author . email)
+        call append(i, b:comment_char . b:field_author . g:header_field_author . email)
         let i += 1
     endif
     if g:header_field_timestamp
@@ -300,14 +300,15 @@ fun s:update_header_field_and_value(field, value)
     let field_without_spaces = substitute(a:field, '\s*:$', '', '')
     let field = s:create_pattern_text(field_without_spaces, 1) . '\s*.*'
     let field_add = s:create_pattern_text(a:field) . ' '
-    execute '0,'. g:header_max_size .'s/' . field . '/' . field_add . s:create_pattern_text(a:value) .'/' 
+    execute '0,'. g:header_max_size .'s/' . field . '/' . field_add . s:create_pattern_text(a:value) .'/'
 endfun
 
 " Update header field without changing it's value
 " Used to switch between aligned and non-aligned headers for headers
 " who have fixed values (i.e File...)
 fun s:update_header_field(field)
-    let l:field_without_spaces = substitute(a:field, '\s*:$', '\\s*[^:]*:', '')
+    " let l:field_without_spaces = substitute(a:field, '\s*:$', '\\s*[^:]*:', '')
+    let l:field_without_spaces = substitute(a:field, ':\s*$', '[^:]*:\\s*', '')
     execute '0,'. g:header_max_size .'s/' . l:field_without_spaces . '/' . a:field . '/'
 endfun
 
@@ -533,12 +534,14 @@ fun s:align_field_with_spaces(field, longer_header_length)
     let l:field_length = strchars(a:field)
     let l:right_padding = a:longer_header_length - l:field_length
     let l:spaces = repeat(' ', l:right_padding)
-    return a:field . l:spaces
+    return a:field . b:field_separator . l:spaces
 endfun
 
 " Update header fields to the correct value in case they should be aligned
 " or not.
 fun s:update_fields(longer_header_length)
+    let b:longer_creator_header_length = strchars(s:get_longer_header([b:field_author, b:field_date]))
+    let b:longer_modified_header_length = strchars(s:get_longer_header([b:field_modified_by, b:field_modified_date]))
 
     if match(b:user_headers, b:field_file) != -1
         if g:header_alignment
@@ -551,33 +554,33 @@ fun s:update_fields(longer_header_length)
     if match(b:user_headers, b:field_author) != -1
         if g:header_alignment
             let b:field_author =
-                \ s:align_field_with_spaces(b:field_author, a:longer_header_length)
+                \ s:align_field_with_spaces(b:field_author, b:longer_creator_header_length)
         endif
-        let b:field_author = b:field_author . b:field_separator
+        let b:field_author = b:field_author 
     endif
 
     if match(b:user_headers, b:field_date) != -1
         if g:header_alignment
             let b:field_date =
-                \ s:align_field_with_spaces(b:field_date, a:longer_header_length)
+                \ s:align_field_with_spaces(b:field_date, b:longer_creator_header_length)
         endif
-        let b:field_date = b:field_date . b:field_separator
+        let b:field_date = b:field_date
     endif
 
     if match(b:user_headers, b:field_modified_date) != -1
         if g:header_alignment
             let b:field_modified_date =
-                \ s:align_field_with_spaces(b:field_modified_date, a:longer_header_length)
+                \ s:align_field_with_spaces(b:field_modified_date, b:longer_modified_header_length)
         endif
-        let b:field_modified_date = b:field_modified_date . b:field_separator
+        let b:field_modified_date = b:field_modified_date
     endif
 
     if match(b:user_headers, b:field_modified_by) != -1
         if g:header_alignment
             let b:field_modified_by =
-                \ s:align_field_with_spaces(b:field_modified_by, a:longer_header_length)
+                \ s:align_field_with_spaces(b:field_modified_by, b:longer_modified_header_length)
         endif
-        let b:field_modified_by = b:field_modified_by . b:field_separator
+        let b:field_modified_by = b:field_modified_by
     endif
 endfun
 
