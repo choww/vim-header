@@ -2,14 +2,14 @@ vim-header
 ==========
 Easily adds brief author info and license headers
 
-This form of vim-header will create a header with the following format: 
+This fork of vim-header will create a header with the following format: 
 ```
 /**
-* @author:Carmen Chow <carmenchow@protonmail.com>
-* @date:  2018-06-05 17:53:30
-* @lastModifiedBy:   Carmen Chow <carmenchow@protonmail.com>
-* @lastModifiedTime: 2018-06-05 17:53:36
-*/
+ * @author: Carmen Chow <carmenchow@protonmail.com>
+ * @date:   2018-06-05 17:53:30
+ * @lastModifiedBy:   Carmen Chow <carmenchow@protonmail.com>
+ * @lastModifiedTime: 2018-06-05 17:53:36
+ */
 ```
 
 Table of Contents
@@ -17,7 +17,6 @@ Table of Contents
 
 * [Install](#install)
 * [Usage](#usage)
-* [Examples](#examples)
 * [Commands](#commands)
 * [Settings](#settings)
 * [Filetypes support](#filetypes-support)
@@ -47,33 +46,6 @@ map <F4> :AddHeader<CR>
 
 Pressing `F4` in normal mode will add a brief author information at the top of
 your buffer.
-
-Examples
---------
-For example, when you open a file named `start.sh` and press `F4` after above
-settings, plugin will add these lines at the top of your buffer
-
-```sh
-#!/bin/bash
-# File: start.sh
-# Author: Your Name <your@mail>
-# Date: 13.03.2016
-# Last Modified Date: 13.03.2016
-# Last Modified By: Your Name <your@mail>
-```
-
-or for a file named `index.php`
-
-```php
-<?php
-/*
- * File: index.php
- * @author: Your Name <your@mail>
- * Date: 13.03.2016
- * Last Modified Date: 13.03.2016
- * Last Modified By: Your Name <your@mail>
- */
-```
 
 [⬆ back to top](#table-of-contents)
 

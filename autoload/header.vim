@@ -78,7 +78,7 @@ fun s:set_props()
         \ b:filetype == 'rust'
 
         let b:block_comment = 1
-        let b:comment_char = '*'
+        let b:comment_char = ' *'
         let b:comment_begin = '/**'
         let b:comment_end = '*/'
     " ----------------------------------
@@ -248,7 +248,7 @@ fun s:add_header()
         else
             let email = ''
         endif
-        call append(i, b:comment_char . b:field_author . g:header_field_author . email)
+        call append(i, b:comment_char . b:field_author . ' ' . g:header_field_author . email)
         let i += 1
     endif
     if g:header_field_timestamp
@@ -307,8 +307,8 @@ endfun
 " Used to switch between aligned and non-aligned headers for headers
 " who have fixed values (i.e File...)
 fun s:update_header_field(field)
-    " let l:field_without_spaces = substitute(a:field, '\s*:$', '\\s*[^:]*:', '')
-    let l:field_without_spaces = substitute(a:field, ':\s*$', '[^:]*:\\s*', '')
+    let l:field_without_spaces = substitute(a:field, '\s*:$', '\\s*[^:]*:', '')
+    " let l:field_without_spaces = substitute(a:field, ':\s*$', '[^:]*:\\s*', '')
     execute '0,'. g:header_max_size .'s/' . l:field_without_spaces . '/' . a:field . '/'
 endfun
 
@@ -525,13 +525,13 @@ endfunc
 " Get longer header size in chars from active ones
 fun s:get_longer_header(headers)
     let l:headers_sorted_by_length = sort(a:headers, "Sort_longer_str")
-    let l:longer_header = get(l:headers_sorted_by_length, 0)
+    let l:longer_header = get(l:headers_sorted_by_length, 0) 
     return l:longer_header
 endfun
 
 " Right pad header to align it to the longer one
 fun s:align_field_with_spaces(field, longer_header_length)
-    let l:field_length = strchars(a:field)
+    let l:field_length = strchars(a:field) 
     let l:right_padding = a:longer_header_length - l:field_length
     let l:spaces = repeat(' ', l:right_padding)
     return a:field . b:field_separator . l:spaces
