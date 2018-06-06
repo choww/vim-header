@@ -80,7 +80,7 @@ fun s:set_props()
         let b:block_comment = 1
         let b:comment_char = ' *'
         let b:comment_begin = '/**'
-        let b:comment_end = '*/'
+        let b:comment_end = ' */'
     " ----------------------------------
     elseif b:filetype == 'haskell'
         let b:block_comment = 1
@@ -307,8 +307,8 @@ endfun
 " Used to switch between aligned and non-aligned headers for headers
 " who have fixed values (i.e File...)
 fun s:update_header_field(field)
-    let l:field_without_spaces = substitute(a:field, '\s*:$', '\\s*[^:]*:', '')
-    " let l:field_without_spaces = substitute(a:field, ':\s*$', '[^:]*:\\s*', '')
+    " let l:field_without_spaces = substitute(a:field, '\s*:$', '\\s*[^:]*:', '')
+    let l:field_without_spaces = substitute(a:field, ':\s*$', '[^:]*:\s*', '')
     execute '0,'. g:header_max_size .'s/' . l:field_without_spaces . '/' . a:field . '/'
 endfun
 
@@ -540,15 +540,15 @@ endfun
 " Update header fields to the correct value in case they should be aligned
 " or not.
 fun s:update_fields(longer_header_length)
-    let b:longer_creator_header_length = strchars(s:get_longer_header([b:field_author, b:field_date]))
+    let b:longer_creator_header_length = strchars(s:get_longer_header([b:field_file, b:field_author, b:field_date]))
     let b:longer_modified_header_length = strchars(s:get_longer_header([b:field_modified_by, b:field_modified_date]))
 
     if match(b:user_headers, b:field_file) != -1
         if g:header_alignment
             let b:field_file =
-                \ s:align_field_with_spaces(b:field_file, a:longer_header_length)
+                \ s:align_field_with_spaces(b:field_file, b:longer_creator_header_length)
         endif
-        let b:field_file = b:field_file . b:field_separator
+        let b:field_file = b:field_file  
     endif
 
     if match(b:user_headers, b:field_author) != -1
