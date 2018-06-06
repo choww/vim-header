@@ -5,9 +5,9 @@ Easily adds brief author info and license headers
 This form of vim-header will create a header with the following format: 
 ```
 /**
-* @author:Carmen Chow <carmen@hackcapital.com>
+* @author:Carmen Chow <carmenchow@protonmail.com>
 * @date:  2018-06-05 17:53:30
-* @lastModifiedBy:   Carmen Chow <carmen@hackcapital.com>
+* @lastModifiedBy:   Carmen Chow <carmenchow@protonmail.com>
 * @lastModifiedTime: 2018-06-05 17:53:36
 */
 ```
